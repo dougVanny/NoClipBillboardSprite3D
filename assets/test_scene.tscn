@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://cr4ek52icl1n2"]
+
+[ext_resource type="Script" path="res://assets/character.gd" id="1_dwbiq"]
+[ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://assets/characterIdle.png" id="2_2xlms"]
+[ext_resource type="Texture2D" uid="uid://bh1017sui8g6y" path="res://assets/characterAttack.png" id="3_a13xt"]
+[ext_resource type="Shader" path="res://addons/noclipbillboardsprite3d/no_clip_billboard.gdshader" id="4_ubo5s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dpfw"]
+albedo_color = Color(0.0029, 0.29, 0.065105, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yd6fm"]
+size = Vector2(5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0rvel"]
+albedo_color = Color(0.28, 0.28, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ecj7x"]
+size = Vector3(3, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_swyl2"]
+size = Vector3(1, 1, 0.5)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ny6aj"]
+vertices = PackedVector3Array(0.3, 0.02, -0.35, 0.35, 0.02, -2.4, -2.4, 0.02, -2.4, -2.4, 0.02, -0.35, 0.6, 0.02, -0.35, 0.65, 0.02, 0, 1.4, 0.02, 0, 1.45, 0.02, -0.35, 2.4, 0.02, -2.4, 2.4, 0.02, -0.35, -2.35, 1.02, 0.2, 0.4, 1.02, 0.15, 0.4, 1.02, -0.15, -2.4, 1.02, -0.15, 1.6, 1.02, -0.15, 1.6, 1.02, 0.2, 2.4, 1.02, 0.15, 2.4, 1.02, -0.15, 0.65, 0.02, 0.3, 1.45, 0.02, 0.4, 2.4, 0.02, 2.4, 2.4, 0.02, 0.4, 0.55, 0.02, 0.4, 0.15, 0.02, 2.4, 0.15, 0.02, 0.4, -2.4, 0.02, 0.4, -2.4, 0.02, 2.4)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 1, 7), PackedInt32Array(7, 1, 8), PackedInt32Array(4, 0, 1), PackedInt32Array(8, 9, 7), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(17, 16, 14), PackedInt32Array(14, 16, 15), PackedInt32Array(5, 6, 18), PackedInt32Array(18, 6, 19), PackedInt32Array(19, 21, 20), PackedInt32Array(18, 19, 22), PackedInt32Array(22, 19, 23), PackedInt32Array(23, 19, 20), PackedInt32Array(23, 24, 22), PackedInt32Array(26, 25, 23), PackedInt32Array(23, 25, 24)]
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"Physical"
+cell_size = 0.05
+cell_height = 0.01
+agent_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2vgf1"]
+cull_mode = 2
+albedo_color = Color(0, 0.866667, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h0iv1"]
+size = Vector2(1, 1)
+orientation = 2
+
+[sub_resource type="Environment" id="Environment_6j486"]
+background_mode = 1
+background_color = Color(0.3397, 0.38184, 0.43, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4fxl"]
+render_priority = 0
+shader = ExtResource("4_ubo5s")
+shader_parameter/offset = Vector2(0, -0.14)
+shader_parameter/billboardMode = 2
+shader_parameter/sprite = ExtResource("3_a13xt")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vg8am"]
+size = Vector2(0.64, 0.64)
+center_offset = Vector3(0, 0.32, 0)
+orientation = 2
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="Physical" type="Node3D" parent="Map" groups=["Physical"]]
+
+[node name="Ground" type="MeshInstance3D" parent="Map/Physical"]
+material_override = SubResource("StandardMaterial3D_2dpfw")
+mesh = SubResource("PlaneMesh_yd6fm")
+skeleton = NodePath("../../..")
+
+[node name="Wall" type="MeshInstance3D" parent="Map/Physical"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_0rvel")
+mesh = SubResource("BoxMesh_ecj7x")
+skeleton = NodePath("../../..")
+
+[node name="Wall2" type="MeshInstance3D" parent="Map/Physical"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_0rvel")
+mesh = SubResource("BoxMesh_swyl2")
+skeleton = NodePath("../../..")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map/Physical"]
+navigation_mesh = SubResource("NavigationMesh_ny6aj")
+
+[node name="Waterfall" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0.25)
+material_override = SubResource("StandardMaterial3D_2vgf1")
+mesh = SubResource("PlaneMesh_h0iv1")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+transform = Transform3D(0.714156, 0.697906, 0.053928, -0.506621, 0.462177, 0.727824, 0.483029, -0.547101, 0.68364, 2.12475, 2.87669, 2.93748)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
+environment = SubResource("Environment_6j486")
+
+[node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.730818)
+script = ExtResource("1_dwbiq")
+moveSpeed = 2.0
+rotateSpeed = 0.02
+attackDuration = 1.0
+sprite = NodePath("Sprite3D")
+idleTexture = ExtResource("2_2xlms")
+attackTexture = ExtResource("3_a13xt")
+
+[node name="Sprite3D" type="Sprite3D" parent="Character"]
+visible = false
+offset = Vector2(0, 9)
+pixel_size = 0.02
+billboard = 1
+texture_filter = 0
+texture = ExtResource("3_a13xt")
+
+[node name="NoClipBillboardSprite3D" type="MeshInstance3D" parent="Character"]
+material_override = SubResource("ShaderMaterial_x4fxl")
+mesh = SubResource("PlaneMesh_vg8am")
+
+[node name="Camera3D" type="Camera3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.775, 1.368)
