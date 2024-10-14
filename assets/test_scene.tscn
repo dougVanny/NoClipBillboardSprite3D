@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://assets/character.gd" id="1_dwbiq"]
 [ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://assets/characterIdle.png" id="2_2xlms"]
 [ext_resource type="Texture2D" uid="uid://bh1017sui8g6y" path="res://assets/characterAttack.png" id="3_a13xt"]
-[ext_resource type="Shader" path="res://addons/noclipbillboardsprite3d/no_clip_billboard.gdshader" id="4_ubo5s"]
+[ext_resource type="Shader" path="res://addons/no_clip_billboard_sprite3d/no_clip_billboard.gdshader" id="4_ubo5s"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dpfw"]
 albedo_color = Color(0.0029, 0.29, 0.065105, 1)
