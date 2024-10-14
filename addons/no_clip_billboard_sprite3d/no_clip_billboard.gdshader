@@ -7,7 +7,9 @@ render_mode unshaded;
 render_mode depth_prepass_alpha;
 
 uniform sampler2D sprite:source_color,filter_nearest;
-uniform vec2 offset = vec2(0.0,0.0);
+uniform vec2 pivot = vec2(0.0,0.0);
+
+uniform bool noClip = true;
 
 uniform int billboardMode = 0;
 // 0: Regular billboard
@@ -51,10 +53,10 @@ void vertex() {
 	// billboard_x cross local_y = forward
 	vec3 billboard_z = normalize(cross(billboard_x, local_y));
 
-	vec4 translation = vec4(offset.x * billboard_x + offset.y * local_y,0.0);
+	vec4 translation = vec4(pivot.x * billboard_x + pivot.y * local_y,0.0);
 
 	// override the model view matrix, this mat4 shenanigan is setting the X, Y, and Z axis of the matrix, to the axis we just made (keeping local y)
-	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(vec4(billboard_x * length(local_x), 0.0), vec4(local_y, 0.0), vec4(billboard_z * length(local_z), 0.0), MODEL_MATRIX[3] + translation);
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(vec4(billboard_x * length(local_x), 0.0), vec4(local_y, 0.0), vec4(billboard_z * length(local_z), 0.0), MODEL_MATRIX[3] - translation);
 
 	// and then remmake the normal matrix
 	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
@@ -95,11 +97,15 @@ void fragment() {
 	ALPHA = tex.a;
 	
 	vec3 worldVertex = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz;
-	worldVertex = mix(
-		VertexPositionAbovePivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
-		VertexPositionBelowPivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
-		step(worldVertex.y, NODE_POSITION_WORLD.y)
-	);
+	
+	if(noClip)
+	{
+		worldVertex = mix(
+			VertexPositionAbovePivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
+			VertexPositionBelowPivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
+			step(worldVertex.y, NODE_POSITION_WORLD.y)
+		);
+	}
 
 	vec4 projected = VIEW_MATRIX * vec4(worldVertex,1.0);
 	projected = PROJECTION_MATRIX * projected;

@@ -9,7 +9,7 @@ extends Node3D
 
 @export_group("Node references")
 @export var sprite:Sprite3D;
-@export var noClipSprite:GeometryInstance3D;
+@export var noClipSprite:NoClipBillboardSprite3D;
 
 @export_group("Hud")
 @export var updateHud:bool;
@@ -32,7 +32,7 @@ func _ready() -> void:
 	noClipSprite.visible = true;
 	sprite.visible = false;
 	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	noClipSprite.material_override.set_shader_parameter("billboardMode", 0);
+	noClipSprite.billboardMode = NoClipBillboardSprite3D.BillboardMode.BILLBOARD;
 	if updateHud:
 		nodeType.text = "NoClipBillboardSprite3D";
 		nodeType.label_settings.font_color =Color.GREEN;
@@ -90,7 +90,7 @@ func _input(event: InputEvent) -> void:
 						billboardType3.label_settings.font_color = Color.RED if sprite.visible else Color.GREEN;
 			elif event.keycode == KEY_1:
 				sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-				noClipSprite.material_override.set_shader_parameter("billboardMode", 0);
+				noClipSprite.billboardMode = NoClipBillboardSprite3D.BillboardMode.BILLBOARD;
 				
 				if updateHud:
 					billboardType1.label_settings.font_color = Color.GREEN;
@@ -98,7 +98,7 @@ func _input(event: InputEvent) -> void:
 					billboardType3.label_settings.font_color = Color.DIM_GRAY;
 			elif event.keycode == KEY_2:
 				sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
-				noClipSprite.material_override.set_shader_parameter("billboardMode", 1);
+				noClipSprite.billboardMode = NoClipBillboardSprite3D.BillboardMode.Y_BILLBOARD;
 				
 				if updateHud:
 					billboardType1.label_settings.font_color = Color.DIM_GRAY;
@@ -106,7 +106,7 @@ func _input(event: InputEvent) -> void:
 					billboardType3.label_settings.font_color = Color.DIM_GRAY;
 			elif event.keycode == KEY_3:
 				sprite.billboard = BaseMaterial3D.BILLBOARD_DISABLED
-				noClipSprite.material_override.set_shader_parameter("billboardMode", 2);
+				noClipSprite.billboardMode = NoClipBillboardSprite3D.BillboardMode.FACING_CAMERA;
 				
 				if updateHud:
 					billboardType1.label_settings.font_color = Color.DIM_GRAY;
@@ -117,4 +117,4 @@ func _input(event: InputEvent) -> void:
 
 func setTexture(newTexture:Texture2D) -> void:
 	sprite.texture = newTexture;
-	noClipSprite.material_override.set_shader_parameter("sprite", newTexture);
+	noClipSprite.texture = newTexture;

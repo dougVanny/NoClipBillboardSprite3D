@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://cr4ek52icl1n2"]
+[gd_scene load_steps=23 format=3 uid="uid://cr4ek52icl1n2"]
 
-[ext_resource type="Script" path="res://assets/character.gd" id="1_dwbiq"]
-[ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://assets/characterIdle.png" id="2_2xlms"]
-[ext_resource type="Texture2D" uid="uid://bh1017sui8g6y" path="res://assets/characterAttack.png" id="3_a13xt"]
-[ext_resource type="Shader" path="res://addons/no_clip_billboard_sprite3d/no_clip_billboard.gdshader" id="4_ubo5s"]
+[ext_resource type="Script" path="res://addons/no_clip_billboard_sprite3d/test/assets/character.gd" id="1_2ej42"]
+[ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://addons/no_clip_billboard_sprite3d/test/assets/characterIdle.png" id="2_qn1ie"]
+[ext_resource type="Texture2D" uid="uid://bh1017sui8g6y" path="res://addons/no_clip_billboard_sprite3d/test/assets/characterAttack.png" id="3_st8n5"]
+[ext_resource type="Shader" path="res://addons/no_clip_billboard_sprite3d/no_clip_billboard.gdshader" id="4_krd2t"]
+[ext_resource type="Script" path="res://addons/no_clip_billboard_sprite3d/no_clip_billboard_sprite3d.gd" id="5_1rtxr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dpfw"]
 albedo_color = Color(0.0029, 0.29, 0.065105, 1)
@@ -41,15 +42,15 @@ orientation = 2
 background_mode = 1
 background_color = Color(0.3397, 0.38184, 0.43, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4fxl"]
-resource_local_to_scene = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_702ks"]
 render_priority = 0
-shader = ExtResource("4_ubo5s")
-shader_parameter/offset = Vector2(0, -0.14)
+shader = ExtResource("4_krd2t")
+shader_parameter/pivot = Vector2(0, 0.13952)
+shader_parameter/noClip = true
 shader_parameter/billboardMode = 0
-shader_parameter/sprite = ExtResource("2_2xlms")
+shader_parameter/sprite = ExtResource("2_qn1ie")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_vg8am"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_q4bla"]
 size = Vector2(0.64, 0.64)
 center_offset = Vector3(0, 0.32, 0)
 orientation = 2
@@ -66,13 +67,18 @@ font_color = Color(0.498039, 0.498039, 0.498039, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_6w4qx"]
 font_color = Color(0.498039, 0.498039, 0.498039, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nmm53"]
-resource_local_to_scene = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rdrmr"]
 render_priority = 0
-shader = ExtResource("4_ubo5s")
-shader_parameter/offset = Vector2(0, -0.14)
+shader = ExtResource("4_krd2t")
+shader_parameter/pivot = Vector2(0, 0.13952)
+shader_parameter/noClip = true
 shader_parameter/billboardMode = 0
-shader_parameter/sprite = ExtResource("2_2xlms")
+shader_parameter/sprite = ExtResource("2_qn1ie")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_epp85"]
+size = Vector2(0.64, 0.64)
+center_offset = Vector3(0, 0.32, 0)
+orientation = 2
 
 [node name="Node3D" type="Node3D"]
 
@@ -114,14 +120,14 @@ environment = SubResource("Environment_6j486")
 
 [node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite", "nodeType", "billboardType1", "billboardType2", "billboardType3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.821252, 0, 0.282205)
-script = ExtResource("1_dwbiq")
+script = ExtResource("1_2ej42")
 moveSpeed = 2.0
 rotateSpeed = 0.02
 attackDuration = 0.5
-idleTexture = ExtResource("2_2xlms")
-attackTexture = ExtResource("3_a13xt")
+idleTexture = ExtResource("2_qn1ie")
+attackTexture = ExtResource("3_st8n5")
 sprite = NodePath("Sprite3D")
-noClipSprite = NodePath("NoClipBillboardSprite3D")
+noClipSprite = NodePath("NoClipBillboardSprite3D2")
 updateHud = true
 nodeType = NodePath("ColorRect/Label3")
 billboardType1 = NodePath("ColorRect/VBoxContainer/Type1")
@@ -134,12 +140,17 @@ offset = Vector2(0, 9)
 pixel_size = 0.02
 billboard = 1
 texture_filter = 0
-texture = ExtResource("2_2xlms")
+texture = ExtResource("2_qn1ie")
 
-[node name="NoClipBillboardSprite3D" type="MeshInstance3D" parent="Character"]
+[node name="NoClipBillboardSprite3D2" type="MeshInstance3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00579822)
-material_override = SubResource("ShaderMaterial_x4fxl")
-mesh = SubResource("PlaneMesh_vg8am")
+material_override = SubResource("ShaderMaterial_702ks")
+mesh = SubResource("PlaneMesh_q4bla")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+noClip = true
 
 [node name="Camera3D" type="Camera3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.775, 1.368)
@@ -210,9 +221,9 @@ Press space to stab with sword
 
 [node name="NPC" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52389, 0, 0.803307)
-script = ExtResource("1_dwbiq")
-idleTexture = ExtResource("2_2xlms")
-attackTexture = ExtResource("3_a13xt")
+script = ExtResource("1_2ej42")
+idleTexture = ExtResource("2_qn1ie")
+attackTexture = ExtResource("3_st8n5")
 sprite = NodePath("Sprite3D")
 noClipSprite = NodePath("NoClipBillboardSprite3D")
 
@@ -222,9 +233,14 @@ offset = Vector2(0, 9)
 pixel_size = 0.02
 billboard = 1
 texture_filter = 0
-texture = ExtResource("2_2xlms")
+texture = ExtResource("2_qn1ie")
 
 [node name="NoClipBillboardSprite3D" type="MeshInstance3D" parent="NPC"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00579822)
-material_override = SubResource("ShaderMaterial_nmm53")
-mesh = SubResource("PlaneMesh_vg8am")
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+noClip = true

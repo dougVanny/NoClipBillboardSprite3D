@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biqthwapdyj6c"
-path.s3tc="res://.godot/imported/characterIdle.png-15e79d4009592557112a055ca722113e.s3tc.ctex"
+uid="uid://bh1017sui8g6y"
+path.s3tc="res://.godot/imported/characterAttack.png-ead678d523aa65bd0dcc5109603f7c87.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/characterIdle.png"
-dest_files=["res://.godot/imported/characterIdle.png-15e79d4009592557112a055ca722113e.s3tc.ctex"]
+source_file="res://addons/no_clip_billboard_sprite3d/test/assets/characterAttack.png"
+dest_files=["res://.godot/imported/characterAttack.png-ead678d523aa65bd0dcc5109603f7c87.s3tc.ctex"]
 
 [params]
 

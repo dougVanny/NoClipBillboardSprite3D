@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="NoClipBillboardSprite3D"
-run/main_scene="res://assets/test_scene.tscn"
+run/main_scene="res://addons/no_clip_billboard_sprite3d/test/test_scene.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -21,7 +21,7 @@ project/assembly_name="NoClipBillboardSprite3D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/noclipbillboardsprite3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/no_clip_billboard_sprite3d/plugin.cfg", "res://addons/noclipbillboardsprite3d/plugin.cfg")
 
 [navigation]
 
