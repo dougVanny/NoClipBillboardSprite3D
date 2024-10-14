@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cr4ek52icl1n2"]
+[gd_scene load_steps=17 format=3 uid="uid://cr4ek52icl1n2"]
 
 [ext_resource type="Script" path="res://assets/character.gd" id="1_dwbiq"]
 [ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://assets/characterIdle.png" id="2_2xlms"]
@@ -42,16 +42,25 @@ background_mode = 1
 background_color = Color(0.3397, 0.38184, 0.43, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x4fxl"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_ubo5s")
 shader_parameter/offset = Vector2(0, -0.14)
-shader_parameter/billboardMode = 2
-shader_parameter/sprite = ExtResource("3_a13xt")
+shader_parameter/billboardMode = 0
+shader_parameter/sprite = ExtResource("2_2xlms")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vg8am"]
 size = Vector2(0.64, 0.64)
 center_offset = Vector3(0, 0.32, 0)
 orientation = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nmm53"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_ubo5s")
+shader_parameter/offset = Vector2(0, -0.14)
+shader_parameter/billboardMode = 0
+shader_parameter/sprite = ExtResource("2_2xlms")
 
 [node name="Node3D" type="Node3D"]
 
@@ -91,15 +100,16 @@ transform = Transform3D(0.714156, 0.697906, 0.053928, -0.506621, 0.462177, 0.727
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
 environment = SubResource("Environment_6j486")
 
-[node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.730818)
+[node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.821252, 0, 0.282205)
 script = ExtResource("1_dwbiq")
 moveSpeed = 2.0
 rotateSpeed = 0.02
-attackDuration = 1.0
-sprite = NodePath("Sprite3D")
+attackDuration = 0.5
 idleTexture = ExtResource("2_2xlms")
 attackTexture = ExtResource("3_a13xt")
+sprite = NodePath("Sprite3D")
+noClipSprite = NodePath("NoClipBillboardSprite3D")
 
 [node name="Sprite3D" type="Sprite3D" parent="Character"]
 visible = false
@@ -107,11 +117,33 @@ offset = Vector2(0, 9)
 pixel_size = 0.02
 billboard = 1
 texture_filter = 0
-texture = ExtResource("3_a13xt")
+texture = ExtResource("2_2xlms")
 
 [node name="NoClipBillboardSprite3D" type="MeshInstance3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00579822)
 material_override = SubResource("ShaderMaterial_x4fxl")
 mesh = SubResource("PlaneMesh_vg8am")
 
 [node name="Camera3D" type="Camera3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.775, 1.368)
+
+[node name="NPC" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52389, 0, 0.803307)
+script = ExtResource("1_dwbiq")
+idleTexture = ExtResource("2_2xlms")
+attackTexture = ExtResource("3_a13xt")
+sprite = NodePath("Sprite3D")
+noClipSprite = NodePath("NoClipBillboardSprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="NPC"]
+visible = false
+offset = Vector2(0, 9)
+pixel_size = 0.02
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_2xlms")
+
+[node name="NoClipBillboardSprite3D" type="MeshInstance3D" parent="NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00579822)
+material_override = SubResource("ShaderMaterial_nmm53")
+mesh = SubResource("PlaneMesh_vg8am")

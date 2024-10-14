@@ -1,5 +1,7 @@
 shader_type spatial;
 
+#define Z_FIGHT_GROUND_AVOIDANCE 0.0001
+
 render_mode shadows_disabled;
 render_mode unshaded;
 render_mode depth_prepass_alpha;
@@ -20,16 +22,16 @@ void vertex() {
 	{
 		spriteDirection =  MAIN_CAM_INV_VIEW_MATRIX[3].xyz - MODEL_MATRIX[3].xyz;
 	}
-	else	
+	else
 	{
 		spriteDirection = CAMERA_DIRECTION_WORLD;
 	}
 
 	vec3 local_x = MODEL_MATRIX[0].xyz;
 	vec3 local_z = MODEL_MATRIX[2].xyz;
-	
+
 	vec3 local_y;
-	
+
 	if(billboardMode == 0)
 	{
 		local_y = MAIN_CAM_INV_VIEW_MATRIX[1].xyz;
@@ -42,7 +44,7 @@ void vertex() {
 	{
 		local_y = normalize(cross(cross(spriteDirection,MODEL_MATRIX[1].xyz),spriteDirection));
 	}
-	
+
 	//use cross products to find world space axis for the billboard
 	// local_y cross direction_to_camera = right
 	vec3 billboard_x = normalize(cross(local_y, spriteDirection));
@@ -58,30 +60,56 @@ void vertex() {
 	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
 }
 
+vec3 VertexPositionAbovePivot(vec3 vertexPositionWorld, vec3 cameraPositionWorld, vec3 nodePositionWorld)
+{
+	vec3 ray = normalize(cameraPositionWorld-vertexPositionWorld);
+
+	vec3 spriteFlatDirection = normalize(vec3(spriteDirection.x, 0.0, spriteDirection.z));
+	
+	float denom = dot(spriteFlatDirection, ray);
+	
+	float t = dot(nodePositionWorld-cameraPositionWorld, spriteFlatDirection)/denom;
+	vec3 fakePosition = cameraPositionWorld + ray*t;
+	
+	return mix(fakePosition, vertexPositionWorld, step(denom, 0.0001));
+}
+
+vec3 VertexPositionBelowPivot(vec3 vertexPositionWorld, vec3 cameraPositionWorld, vec3 nodePositionWorld)
+{
+	vec3 ray = normalize(cameraPositionWorld-vertexPositionWorld);
+
+	vec3 spriteFlatDirection = vec3(0.0,1.0,0.0);
+	
+	float denom = dot(spriteFlatDirection, ray);
+	
+	float t = dot(nodePositionWorld-cameraPositionWorld, spriteFlatDirection)/denom;
+	
+	vec3 fakePosition = cameraPositionWorld + ray*(t + Z_FIGHT_GROUND_AVOIDANCE);
+	
+	return mix(fakePosition, vertexPositionWorld, step(denom, 0.0));
+}
 
 void fragment() {
-	/*
-	vec3 worldVertex = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz;
-	vec3 ray = normalize(CAMERA_POSITION_WORLD-worldVertex);
-	vec3 fakePosition = worldVertex;
-	
-	float denom = dot(spriteDirection, ray);
-	if(denom > 0.0001)
-	{
-		float t = dot(NODE_POSITION_WORLD-CAMERA_POSITION_WORLD, spriteDirection)/denom;
-		fakePosition = CAMERA_POSITION_WORLD + ray*t;
-	}
-	
-	vec4 projected = VIEW_MATRIX * vec4(fakePosition,1.0);
-	projected = PROJECTION_MATRIX * projected;
-	DEPTH = projected.z / projected.w;*/
-	
-	vec4 clip_pos = PROJECTION_MATRIX * vec4(VERTEX, 1.0);
-	DEPTH = clip_pos.z / clip_pos.w;
-	
 	vec4 tex = texture(sprite, UV);
 	ALBEDO = tex.xyz;
 	ALPHA = tex.a;
+	
+	vec3 worldVertex = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz;
+	worldVertex = mix(
+		VertexPositionAbovePivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
+		VertexPositionBelowPivot(worldVertex, CAMERA_POSITION_WORLD, NODE_POSITION_WORLD),
+		step(worldVertex.y, NODE_POSITION_WORLD.y)
+	);
+
+	vec4 projected = VIEW_MATRIX * vec4(worldVertex,1.0);
+	projected = PROJECTION_MATRIX * projected;
+	DEPTH = projected.z / projected.w;
+
+	// Test if compatibility renderer
+	if (OUTPUT_IS_SRGB)
+	{
+		DEPTH = (DEPTH + 1.0)/2.0;
+	}
 }
 
 //void light() {
