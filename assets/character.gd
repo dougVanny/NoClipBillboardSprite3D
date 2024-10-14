@@ -11,6 +11,13 @@ extends Node3D
 @export var sprite:Sprite3D;
 @export var noClipSprite:GeometryInstance3D;
 
+@export_group("Hud")
+@export var updateHud:bool;
+@export var nodeType:Label;
+@export var billboardType1:Label;
+@export var billboardType2:Label;
+@export var billboardType3:Label;
+
 var navigationYRange:float = 0.5;
 
 var movement:Vector2;
@@ -21,6 +28,17 @@ var attackDurationLeft:float;
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
 	setTexture(idleTexture);
+	
+	noClipSprite.visible = true;
+	sprite.visible = false;
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	noClipSprite.material_override.set_shader_parameter("billboardMode", 0);
+	if updateHud:
+		nodeType.text = "NoClipBillboardSprite3D";
+		nodeType.label_settings.font_color =Color.GREEN;
+		billboardType1.label_settings.font_color = Color.GREEN;
+		billboardType2.label_settings.font_color = Color.DIM_GRAY;
+		billboardType3.label_settings.font_color = Color.DIM_GRAY;
 
 var frameWait:int = 1;
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,17 +81,37 @@ func _input(event: InputEvent) -> void:
 			elif event.keycode == KEY_TAB:
 				noClipSprite.visible = !noClipSprite.visible;
 				sprite.visible = !noClipSprite.visible;
+				
+				if updateHud:
+					nodeType.text = "Sprite3D" if sprite.visible else "NoClipBillboardSprite3D";
+					nodeType.label_settings.font_color = Color.RED if sprite.visible else Color.GREEN;
+					
+					if billboardType3.label_settings.font_color != Color.DIM_GRAY:
+						billboardType3.label_settings.font_color = Color.RED if sprite.visible else Color.GREEN;
 			elif event.keycode == KEY_1:
 				sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 				noClipSprite.material_override.set_shader_parameter("billboardMode", 0);
+				
+				if updateHud:
+					billboardType1.label_settings.font_color = Color.GREEN;
+					billboardType2.label_settings.font_color = Color.DIM_GRAY;
+					billboardType3.label_settings.font_color = Color.DIM_GRAY;
 			elif event.keycode == KEY_2:
 				sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 				noClipSprite.material_override.set_shader_parameter("billboardMode", 1);
+				
+				if updateHud:
+					billboardType1.label_settings.font_color = Color.DIM_GRAY;
+					billboardType2.label_settings.font_color = Color.GREEN;
+					billboardType3.label_settings.font_color = Color.DIM_GRAY;
 			elif event.keycode == KEY_3:
-				sprite.visible = false
-				noClipSprite.visible = true
 				sprite.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 				noClipSprite.material_override.set_shader_parameter("billboardMode", 2);
+				
+				if updateHud:
+					billboardType1.label_settings.font_color = Color.DIM_GRAY;
+					billboardType2.label_settings.font_color = Color.DIM_GRAY;
+					billboardType3.label_settings.font_color = Color.GREEN;
 	elif event is InputEventMouseMotion:
 		cameraRotation -= event.relative.x;
 

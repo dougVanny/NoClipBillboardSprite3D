@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cr4ek52icl1n2"]
+[gd_scene load_steps=21 format=3 uid="uid://cr4ek52icl1n2"]
 
 [ext_resource type="Script" path="res://assets/character.gd" id="1_dwbiq"]
 [ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://assets/characterIdle.png" id="2_2xlms"]
@@ -54,6 +54,18 @@ size = Vector2(0.64, 0.64)
 center_offset = Vector3(0, 0.32, 0)
 orientation = 2
 
+[sub_resource type="LabelSettings" id="LabelSettings_qcmpe"]
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_arf50"]
+font_color = Color(0, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lst2s"]
+font_color = Color(0.498039, 0.498039, 0.498039, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6w4qx"]
+font_color = Color(0.498039, 0.498039, 0.498039, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nmm53"]
 resource_local_to_scene = true
 render_priority = 0
@@ -100,7 +112,7 @@ transform = Transform3D(0.714156, 0.697906, 0.053928, -0.506621, 0.462177, 0.727
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
 environment = SubResource("Environment_6j486")
 
-[node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite")]
+[node name="Character" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite", "nodeType", "billboardType1", "billboardType2", "billboardType3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.821252, 0, 0.282205)
 script = ExtResource("1_dwbiq")
 moveSpeed = 2.0
@@ -110,6 +122,11 @@ idleTexture = ExtResource("2_2xlms")
 attackTexture = ExtResource("3_a13xt")
 sprite = NodePath("Sprite3D")
 noClipSprite = NodePath("NoClipBillboardSprite3D")
+updateHud = true
+nodeType = NodePath("ColorRect/Label3")
+billboardType1 = NodePath("ColorRect/VBoxContainer/Type1")
+billboardType2 = NodePath("ColorRect/VBoxContainer/Type2")
+billboardType3 = NodePath("ColorRect/VBoxContainer/Type3")
 
 [node name="Sprite3D" type="Sprite3D" parent="Character"]
 visible = false
@@ -126,6 +143,70 @@ mesh = SubResource("PlaneMesh_vg8am")
 
 [node name="Camera3D" type="Camera3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.775, 1.368)
+
+[node name="ColorRect" type="ColorRect" parent="Character"]
+offset_right = 378.0
+offset_bottom = 273.0
+color = Color(0, 0, 0, 0.168627)
+
+[node name="Label" type="Label" parent="Character/ColorRect"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 7.0
+offset_right = 130.0
+offset_bottom = 30.0
+text = "Node:"
+
+[node name="Label3" type="Label" parent="Character/ColorRect"]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 7.0
+offset_right = 180.0
+offset_bottom = 30.0
+text = "Sprite3D"
+label_settings = SubResource("LabelSettings_qcmpe")
+
+[node name="Label2" type="Label" parent="Character/ColorRect"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 30.0
+offset_right = 130.0
+offset_bottom = 53.0
+text = "Billboard type: "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect"]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 31.0
+offset_right = 172.0
+offset_bottom = 71.0
+
+[node name="Type1" type="Label" parent="Character/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "1 - Regular Billboard"
+label_settings = SubResource("LabelSettings_arf50")
+
+[node name="Type2" type="Label" parent="Character/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "2 - Y-Billboard"
+label_settings = SubResource("LabelSettings_lst2s")
+
+[node name="Type3" type="Label" parent="Character/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "3 - Facing camera"
+label_settings = SubResource("LabelSettings_6w4qx")
+
+[node name="Label4" type="Label" parent="Character/ColorRect"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 116.0
+offset_right = 311.0
+offset_bottom = 165.0
+text = "Press tab do toggle node type
+Press number to change billboard type
+Press space to stab with sword
+
+(Sprite3D does not support billboard type 3)"
 
 [node name="NPC" type="Node3D" parent="." node_paths=PackedStringArray("sprite", "noClipSprite")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52389, 0, 0.803307)
