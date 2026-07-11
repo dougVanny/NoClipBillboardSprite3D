@@ -1,0 +1,620 @@
+[gd_scene format=3 uid="uid://cr4ek52icl1n2"]
+
+[ext_resource type="Script" uid="uid://cn7armnxw3fsn" path="res://test/assets/character.gd" id="1_2ej42"]
+[ext_resource type="Texture2D" uid="uid://biqthwapdyj6c" path="res://test/assets/characterIdle.png" id="2_qn1ie"]
+[ext_resource type="Texture2D" uid="uid://bh1017sui8g6y" path="res://test/assets/characterAttack.png" id="3_st8n5"]
+[ext_resource type="Shader" uid="uid://dy4w6q1iug5bx" path="res://addons/no_clip_sprite3d/no_clip_sprite.gdshader" id="4_krd2t"]
+[ext_resource type="Script" uid="uid://q0cdtjimmoq7" path="res://addons/no_clip_sprite3d/no_clip_sprite3d.gd" id="5_1rtxr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dpfw"]
+albedo_color = Color(0.0029, 0.29, 0.065105, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yd6fm"]
+size = Vector2(5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0rvel"]
+albedo_color = Color(0.28, 0.28, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ecj7x"]
+size = Vector3(3, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_swyl2"]
+size = Vector3(1, 1, 0.5)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ny6aj"]
+vertices = PackedVector3Array(0.3, 0.02, -0.35, 0.35, 0.02, -2.4, -2.4, 0.02, -2.4, -2.4, 0.02, -0.35, 0.6, 0.02, -0.35, 0.65, 0.02, 0, 1.4, 0.02, 0, 1.45, 0.02, -0.35, 2.4, 0.02, -2.4, 2.4, 0.02, -0.35, -2.35, 1.02, 0.2, 0.4, 1.02, 0.15, 0.4, 1.02, -0.15, -2.4, 1.02, -0.15, 1.6, 1.02, -0.15, 1.6, 1.02, 0.2, 2.4, 1.02, 0.15, 2.4, 1.02, -0.15, 0.65, 0.02, 0.3, 1.45, 0.02, 0.4, 2.4, 0.02, 2.4, 2.4, 0.02, 0.4, 0.55, 0.02, 0.4, 0.15, 0.02, 2.4, 0.15, 0.02, 0.4, -2.4, 0.02, 0.4, -2.4, 0.02, 2.4)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 1, 7), PackedInt32Array(7, 1, 8), PackedInt32Array(4, 0, 1), PackedInt32Array(8, 9, 7), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(17, 16, 14), PackedInt32Array(14, 16, 15), PackedInt32Array(5, 6, 18), PackedInt32Array(18, 6, 19), PackedInt32Array(19, 21, 20), PackedInt32Array(18, 19, 22), PackedInt32Array(22, 19, 23), PackedInt32Array(23, 19, 20), PackedInt32Array(23, 24, 22), PackedInt32Array(26, 25, 23), PackedInt32Array(23, 25, 24)]
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"Physical"
+cell_size = 0.05
+cell_height = 0.01
+agent_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2vgf1"]
+cull_mode = 2
+albedo_color = Color(0, 0.866667, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h0iv1"]
+size = Vector2(1, 1)
+orientation = 2
+
+[sub_resource type="Environment" id="Environment_6j486"]
+background_mode = 1
+background_color = Color(0.3397, 0.38184, 0.43, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_702ks"]
+render_priority = 0
+shader = ExtResource("4_krd2t")
+shader_parameter/sprite = ExtResource("2_qn1ie")
+shader_parameter/pivot = Vector2(0, 0.13951999)
+shader_parameter/noClip = true
+shader_parameter/vertexModeFacing = 0
+shader_parameter/vertexModeUp = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q4bla"]
+size = Vector2(0.64, 0.64)
+center_offset = Vector3(0, 0.32, 0)
+orientation = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_arf50"]
+font_color = Color(0, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rdrmr"]
+render_priority = 0
+shader = ExtResource("4_krd2t")
+shader_parameter/sprite = ExtResource("2_qn1ie")
+shader_parameter/pivot = Vector2(0, 0.13951999)
+shader_parameter/noClip = true
+shader_parameter/vertexModeFacing = 1
+shader_parameter/vertexModeUp = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_epp85"]
+size = Vector2(0.64, 0.64)
+center_offset = Vector3(0, 0.32, 0)
+orientation = 2
+
+[node name="Node3D" type="Node3D" unique_id=1055177496]
+
+[node name="Map" type="Node3D" parent="." unique_id=1270422532]
+
+[node name="Physical" type="Node3D" parent="Map" unique_id=1174653121 groups=["Physical"]]
+
+[node name="Ground" type="MeshInstance3D" parent="Map/Physical" unique_id=516724631]
+material_override = SubResource("StandardMaterial3D_2dpfw")
+mesh = SubResource("PlaneMesh_yd6fm")
+skeleton = NodePath("../../..")
+
+[node name="Wall" type="MeshInstance3D" parent="Map/Physical" unique_id=1209202025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_0rvel")
+mesh = SubResource("BoxMesh_ecj7x")
+skeleton = NodePath("../../..")
+
+[node name="Wall2" type="MeshInstance3D" parent="Map/Physical" unique_id=477913912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_0rvel")
+mesh = SubResource("BoxMesh_swyl2")
+skeleton = NodePath("../../..")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map/Physical" unique_id=1156382552]
+navigation_mesh = SubResource("NavigationMesh_ny6aj")
+
+[node name="Waterfall" type="MeshInstance3D" parent="Map" unique_id=1309049115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0.25)
+material_override = SubResource("StandardMaterial3D_2vgf1")
+mesh = SubResource("PlaneMesh_h0iv1")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map" unique_id=1299865374]
+transform = Transform3D(0.714156, 0.697906, 0.053928, -0.506621, 0.462177, 0.727824, 0.483029, -0.547101, 0.68364, 2.12475, 2.87669, 2.93748)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map" unique_id=680317045]
+environment = SubResource("Environment_6j486")
+
+[node name="Character" type="Node3D" parent="." unique_id=474804767 node_paths=PackedStringArray("camera", "noClipSpriteArray", "facingDirectionLabel", "upDirectionLabel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.821252, 0, 0.282205)
+script = ExtResource("1_2ej42")
+moveSpeed = 2.0
+attackDuration = 0.5
+rotateSpeed = 0.05
+cameraRollSpeed = 60.0
+cameraRollMax = 15.0
+idleTexture = ExtResource("2_qn1ie")
+attackTexture = ExtResource("3_st8n5")
+camera = NodePath("Camera3D")
+noClipSpriteArray = [NodePath("NoClipSprite3DPlayer"), NodePath("../NoClipSprite3DNPC")]
+facingDirectionLabel = NodePath("ColorRect/VBoxContainer/VBoxContainer/HBoxContainer/FacingDirection")
+upDirectionLabel = NodePath("ColorRect/VBoxContainer/VBoxContainer/HBoxContainer2/UpDirection")
+
+[node name="NoClipSprite3DPlayer" type="MeshInstance3D" parent="Character" unique_id=58523055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00579822)
+material_override = SubResource("ShaderMaterial_702ks")
+mesh = SubResource("PlaneMesh_q4bla")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+
+[node name="Camera3D" type="Camera3D" parent="Character" unique_id=1249599125]
+transform = Transform3D(1.0000002, 0, 0, 0, 0.70710677, 0.70710695, 0, -0.7071067, 0.707107, 0, 1.775, 1.368)
+
+[node name="ColorRect" type="ColorRect" parent="Character" unique_id=37306966]
+offset_right = 378.0
+offset_bottom = 273.0
+color = Color(0, 0, 0, 0.168627)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect" unique_id=772322795]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/VBoxContainer" unique_id=1960742397]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect/VBoxContainer/VBoxContainer" unique_id=1802919089]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Character/ColorRect/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=694750250]
+layout_mode = 2
+text = "1. Facing Direction: "
+
+[node name="FacingDirection" type="Label" parent="Character/ColorRect/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1502218247]
+layout_mode = 2
+text = "Lalala"
+label_settings = SubResource("LabelSettings_arf50")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Character/ColorRect/VBoxContainer/VBoxContainer" unique_id=581082016]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Character/ColorRect/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=637075692]
+layout_mode = 2
+text = "2. Up Direction: "
+
+[node name="UpDirection" type="Label" parent="Character/ColorRect/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1058136282]
+layout_mode = 2
+text = "Lalala"
+label_settings = SubResource("LabelSettings_arf50")
+
+[node name="Label4" type="Label" parent="Character/ColorRect/VBoxContainer" unique_id=126587750]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+text = "Press numbers above to switch between directions"
+autowrap_mode = 2
+
+[node name="Label5" type="Label" parent="Character/ColorRect/VBoxContainer" unique_id=1808115203]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+text = "Press space to stab with sword"
+autowrap_mode = 2
+
+[node name="NoClipSprite3DNPC" type="MeshInstance3D" parent="." unique_id=1177970168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52389, 0, 0.803307)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D" type="Node3D" parent="." unique_id=2077875389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D" unique_id=565986550]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D" unique_id=1562134808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D" unique_id=925833848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D" unique_id=1045879422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D2" type="Node3D" parent="." unique_id=1357980008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D2" unique_id=1094706655]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D2" unique_id=311358108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D2" unique_id=684808144]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D2" unique_id=1966732738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D3" type="Node3D" parent="." unique_id=1266432966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D3" unique_id=1616928972]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D3" unique_id=2116012248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D3" unique_id=276931529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D3" unique_id=481111454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D4" type="Node3D" parent="." unique_id=1998925004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D4" unique_id=990660068]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D4" unique_id=1354410128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D4" unique_id=1944655477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D4" unique_id=1637212251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D5" type="Node3D" parent="." unique_id=551839007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D5" unique_id=1619988059]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D5" unique_id=1348445840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D5" unique_id=334427519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D5" unique_id=1397496438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D6" type="Node3D" parent="." unique_id=1393106802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D6" unique_id=1627241763]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D6" unique_id=1967852690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D6" unique_id=1336572170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D6" unique_id=1655064695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D7" type="Node3D" parent="." unique_id=124857227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D7" unique_id=2023091951]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D7" unique_id=865471762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D7" unique_id=1654836430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D7" unique_id=723727127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D8" type="Node3D" parent="." unique_id=167777428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D8" unique_id=2056204198]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D8" unique_id=420568546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D8" unique_id=1044812168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D8" unique_id=1027116870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="Node3D9" type="Node3D" parent="." unique_id=1194531581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -0.5)
+
+[node name="NoClipSprite3DNPC2" type="MeshInstance3D" parent="Node3D9" unique_id=2111565564]
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC3" type="MeshInstance3D" parent="Node3D9" unique_id=1472649567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC4" type="MeshInstance3D" parent="Node3D9" unique_id=115681045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1
+
+[node name="NoClipSprite3DNPC5" type="MeshInstance3D" parent="Node3D9" unique_id=1873281388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+material_override = SubResource("ShaderMaterial_rdrmr")
+mesh = SubResource("PlaneMesh_epp85")
+skeleton = NodePath("../..")
+script = ExtResource("5_1rtxr")
+texture = ExtResource("2_qn1ie")
+size = Vector2(0.64, 0.64)
+pivot = Vector2(0, 0.218)
+facing_direction = 1

@@ -1,6 +1,6 @@
 @tool
 extends MeshInstance3D
-class_name NoClipBillboardSprite3D
+class_name NoClipSprite3D
 
 @export var texture : Texture2D:
 	set(value):
@@ -26,20 +26,21 @@ class_name NoClipBillboardSprite3D
 	get:
 		return pivot;
 
-@export var noClip : bool:
+enum SpriteFacingDirection {CAMERA_DIRECTION, CAMERA_POSITION}
+@export var facing_direction: SpriteFacingDirection:
 	set(value):
-		material_override.set_shader_parameter("noClip", value);
+		material_override.set_shader_parameter("vertexModeFacing", value);
 		notify_property_list_changed();
 	get:
-		return material_override.get_shader_parameter("noClip");
-		
-enum BillboardMode {BILLBOARD, Y_BILLBOARD, FACING_CAMERA}
-@export var billboardMode: BillboardMode:
+		return material_override.get_shader_parameter("vertexModeFacing");
+
+enum SpriteUpDirection {CAMERA_Y, LOCAL_Y}
+@export var up_direction: SpriteUpDirection:
 	set(value):
-		material_override.set_shader_parameter("billboardMode", value);
+		material_override.set_shader_parameter("vertexModeUp", value);
 		notify_property_list_changed();
 	get:
-		return material_override.get_shader_parameter("billboardMode");
+		return material_override.get_shader_parameter("vertexModeUp");
 
 func _enter_tree() -> void:
 	if mesh == null:
@@ -50,4 +51,4 @@ func _enter_tree() -> void:
 	
 	if material_override == null:
 		material_override = ShaderMaterial.new();
-		material_override.shader = load("res://addons/no_clip_billboard_sprite3d/no_clip_billboard.gdshader");
+		material_override.shader = load("res://addons/no_clip_sprite3d/no_clip_sprite.gdshader");

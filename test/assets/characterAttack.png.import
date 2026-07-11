@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biqthwapdyj6c"
-path.s3tc="res://.godot/imported/characterIdle.png-a05b383c050fe28c75156830676e37d5.s3tc.ctex"
+uid="uid://bh1017sui8g6y"
+path.s3tc="res://.godot/imported/characterAttack.png-a5f48052506292cbbdf7b23ed0ffa912.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,14 +11,16 @@ metadata={
 
 [deps]
 
-source_file="res://addons/no_clip_billboard_sprite3d/test/assets/characterIdle.png"
-dest_files=["res://.godot/imported/characterIdle.png-a05b383c050fe28c75156830676e37d5.s3tc.ctex"]
+source_file="res://test/assets/characterAttack.png"
+dest_files=["res://.godot/imported/characterAttack.png-a5f48052506292cbbdf7b23ed0ffa912.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -26,6 +28,10 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

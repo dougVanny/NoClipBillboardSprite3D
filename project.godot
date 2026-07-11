@@ -8,20 +8,24 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
-config/name="NoClipBillboardSprite3D"
-run/main_scene="res://addons/no_clip_billboard_sprite3d/test/test_scene.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/name="NoClipSprite3D"
+run/main_scene="res://test/test_scene.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="NoClipBillboardSprite3D"
+project/assembly_name="NoClipSprite3D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/no_clip_billboard_sprite3d/plugin.cfg", "res://addons/noclipbillboardsprite3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/no_clip_sprite3d/plugin.cfg")
 
 [navigation]
 
