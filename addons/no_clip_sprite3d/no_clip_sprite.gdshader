@@ -36,7 +36,7 @@ void vertex() {
 
 	if(vertexModeUp == 0)
 	{
-		local_y = MODEL_MATRIX[1].xyz - CAMERA_DIRECTION_WORLD * dot(MODEL_MATRIX[1].xyz,CAMERA_DIRECTION_WORLD);
+		local_y = normalize(MODEL_MATRIX[1].xyz - CAMERA_DIRECTION_WORLD * dot(MODEL_MATRIX[1].xyz,CAMERA_DIRECTION_WORLD));
 		local_y *= length(MODEL_MATRIX[1].xyz);
 	}
 	else
