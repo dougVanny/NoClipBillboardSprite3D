@@ -9,15 +9,14 @@ render_mode depth_prepass_alpha;
 uniform sampler2D sprite:source_color,filter_nearest;
 
 uniform vec2 pivot = vec2(0.0,0.0);
-uniform bool noClip = true;
+uniform float zFightAvoidance = 0.01;
 
 uniform int vertexModeFacing : hint_enum("Face Camera Direction (Billboard)", "Face Camera Position") = 0;
 uniform int vertexModeUp : hint_enum("Camera Y", "Local Y") = 0;
 
 varying vec3 spriteDirection;
-varying vec3 localCameraPosition;
-varying vec3 localNodePosition;
-varying vec3 localVertex;
+varying vec3 nodeUpWorld;
+varying vec3 nodeForwardWorld;
 
 void vertex() {
 	if(vertexModeFacing == 0)
@@ -54,25 +53,22 @@ void vertex() {
 
 	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
 
-	localCameraPosition = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD,1.0)).xyz;
-
-	localNodePosition = (inverse(MODEL_MATRIX) * vec4(NODE_POSITION_WORLD,1.0)).xyz;
-	localNodePosition.y += Z_FIGHT_GROUND_AVOIDANCE;
-
-	localVertex = VERTEX;
+	nodeUpWorld = normalize(MODEL_MATRIX[1].xyz);
+	nodeForwardWorld = normalize(MODEL_MATRIX[2].xyz);
 }
 
-vec3 ProjectFromCameraOntoPlane(vec3 position, vec3 cameraPosition, vec3 planePosition, vec3 planeNormal)
+vec3 CastRayOntoPlane(vec3 rayOrigin, vec3 rayTarget, vec3 planePosition, vec3 planeNormal)
 {
-	vec3 ray = normalize(cameraPosition-position);
+	vec3 ray = normalize(rayTarget - rayOrigin);
+	float planeDistance = dot(planePosition, planeNormal);
 	
-	float denom = dot(planeNormal, ray);
+	float denom = dot(-ray, planeNormal);
+
+	float t = (dot(rayOrigin, planeNormal) - planeDistance)/denom;
 	
-	float t = dot(planePosition-cameraPosition, planeNormal)/denom;
+	vec3 projectedPosition = rayOrigin + ray*(t - zFightAvoidance);
 	
-	vec3 projectedPosition = cameraPosition + ray*t;
-	
-	return mix(projectedPosition, position, step(denom, 0.0001));
+	return mix(projectedPosition, rayTarget, step(denom, 0.0001));
 }
 
 void fragment() {
@@ -80,13 +76,17 @@ void fragment() {
 	ALBEDO = tex.xyz;
 	ALPHA = tex.a;
 	
+	vec3 worldVertex = (INV_VIEW_MATRIX * vec4(VERTEX,1.0)).xyz;
+
+	vec3 projectionForward = spriteDirection - (nodeUpWorld * dot(spriteDirection, nodeUpWorld));
+
 	vec3 projectedVertex = mix(
-		ProjectFromCameraOntoPlane(localVertex, localCameraPosition, localNodePosition, normalize(vec3(spriteDirection.x, 0.0, spriteDirection.z))),
-		ProjectFromCameraOntoPlane(localVertex, localCameraPosition, localNodePosition, vec3(0.0,1.0,0.0)),
-		step(localVertex.y, localNodePosition.y)
+		CastRayOntoPlane(CAMERA_POSITION_WORLD, worldVertex, NODE_POSITION_WORLD, normalize(projectionForward)),
+		CastRayOntoPlane(CAMERA_POSITION_WORLD, worldVertex, NODE_POSITION_WORLD, nodeUpWorld),
+		step(dot(worldVertex-NODE_POSITION_WORLD, nodeUpWorld), 0.0)
 	);
 
-	vec4 projected = VIEW_MATRIX * MODEL_MATRIX * vec4(projectedVertex,1.0);
+	vec4 projected = VIEW_MATRIX * vec4(projectedVertex,1.0);
 	projected = PROJECTION_MATRIX * projected;
 	DEPTH = projected.z / projected.w;
 

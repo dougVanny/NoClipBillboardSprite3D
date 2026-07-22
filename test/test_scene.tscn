@@ -47,7 +47,7 @@ render_priority = 0
 shader = ExtResource("4_krd2t")
 shader_parameter/sprite = ExtResource("2_qn1ie")
 shader_parameter/pivot = Vector2(0, 0.13951999)
-shader_parameter/noClip = true
+shader_parameter/zFightAvoidance = 0.01
 shader_parameter/vertexModeFacing = 0
 shader_parameter/vertexModeUp = 0
 
@@ -64,7 +64,7 @@ render_priority = 0
 shader = ExtResource("4_krd2t")
 shader_parameter/sprite = ExtResource("2_qn1ie")
 shader_parameter/pivot = Vector2(0, 0.13951999)
-shader_parameter/noClip = true
+shader_parameter/zFightAvoidance = 0.01
 shader_parameter/vertexModeFacing = 1
 shader_parameter/vertexModeUp = 0
 
@@ -136,7 +136,8 @@ size = Vector2(0.64, 0.64)
 pivot = Vector2(0, 0.218)
 
 [node name="Camera3D" type="Camera3D" parent="Character" unique_id=1249599125]
-transform = Transform3D(1.0000002, 0, 0, 0, 0.70710677, 0.70710695, 0, -0.7071067, 0.707107, 0, 1.775, 1.368)
+transform = Transform3D(1.0000002, 0, 0, 0, 0.70710677, 0.70710695, 0, -0.7071067, 0.707107, 0, 2.3813198, 1.9743198)
+fov = 45.0
 
 [node name="ColorRect" type="ColorRect" parent="Character" unique_id=37306966]
 offset_right = 378.0
